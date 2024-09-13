@@ -1,0 +1,15 @@
+[Unit]
+Description=CFDDNS Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/cfddns -daemon
+Restart=always
+User=yourusername
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=cfddns
+# Environment=CFDDNS_CONFIG_PATH=/etc/cfddns/cfddns.yml
+
+[Install]
+WantedBy=multi-user.target
