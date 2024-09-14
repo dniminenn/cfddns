@@ -94,7 +94,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN }}
               with:
                   tag_name: ${{ github.ref_type == 'tag' && github.ref_name || env.commit_hash }}
-                  release_name: ${{ github.ref_type == 'tag' && 'Release ' || 'Pre-release ' }}${{ github.ref_type == 'tag' && github.ref_name || env.commit_hash }}
+                  release_name: ${{ github.ref_type == 'tag' && github.ref_name || env.commit_hash }}
                   draft: false
                   prerelease: ${{ github.event_name == 'workflow_dispatch' }}
 
@@ -106,10 +106,21 @@ jobs:
                 goos: [linux, darwin, windows, freebsd]
                 goarch: [amd64]
         steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Get the latest commit hash
+              id: get_commit
+              run: echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+            - name: Set VERSION
+              run: echo "VERSION=${{ github.ref_type == 'tag' && github.ref_name || env.commit_hash }}" >> $GITHUB_ENV
+
             - name: Download Artifact
               uses: actions/download-artifact@v3
               with:
                   name: ${{ matrix.goos }}_${{ matrix.goarch }}
+                  path: ./build
 
             - name: Upload Release Asset
               uses: actions/upload-release-asset@v1
@@ -117,6 +128,6 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN }}
               with:
                   upload_url: ${{ needs.create_release.outputs.upload_url }}
-                  asset_path: build/${{ matrix.goos }}_${{ matrix.goarch }}.${{ matrix.goos == 'windows' && 'zip' || 'tar.gz' }}
-                  asset_name: cfddns_${{ matrix.goos }}_${{ matrix.goarch }}.${{ matrix.goos == 'windows' && 'zip' || 'tar.gz' }}
+                  asset_path: build/cfddns_${{ env.VERSION }}_${{ matrix.goos }}_${{ matrix.goarch }}.${{ matrix.goos == 'windows' && 'zip' || 'tar.gz' }}
+                  asset_name: cfddns_${{ env.VERSION }}_${{ matrix.goos }}_${{ matrix.goarch }}.${{ matrix.goos == 'windows' && 'zip' || 'tar.gz' }}
                   asset_content_type: application/octet-stream
