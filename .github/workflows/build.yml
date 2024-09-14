@@ -1,10 +1,9 @@
-name: Build and Package
+name: Build and Release
 
 on:
     push:
         tags:
             - "v*.*" # Trigger on version tags like v1.0, v2.1, etc.
-    workflow_dispatch: # Allow manual triggering from GitHub Actions UI
 
 jobs:
     build:
@@ -13,7 +12,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                goos: [linux, darwin, windows, freebsd]
+                goos: [linux, darwin, windows]
                 goarch: [amd64]
 
         steps:
@@ -30,37 +29,58 @@ jobs:
               run: go mod download
 
             - name: Build
+              id: build
               env:
                   GOOS: ${{ matrix.goos }}
                   GOARCH: ${{ matrix.goarch }}
                   VERSION: ${{ github.ref_name }}
               run: |
+                  set -e
                   APP_NAME="cfddns"
                   OUTPUT_NAME="${APP_NAME}_${VERSION}_${GOOS}_${GOARCH}"
 
                   if [ "$GOOS" == "windows" ]; then
-                      BINARY_NAME="${APP_NAME}.exe"
+                    BINARY_NAME="${APP_NAME}.exe"
+                    ARCHIVE_EXT="zip"
                   else
-                      BINARY_NAME="$APP_NAME"
+                    BINARY_NAME="$APP_NAME"
+                    ARCHIVE_EXT="tar.gz"
                   fi
 
-                  mkdir -p build/$OUTPUT_NAME
-                  env GOOS=$GOOS GOARCH=$GOARCH go build -o build/$OUTPUT_NAME/$BINARY_NAME main.go
+                  mkdir -p "build/$OUTPUT_NAME"
+                  env GOOS=$GOOS GOARCH=$GOARCH go build -o "build/$OUTPUT_NAME/$BINARY_NAME" main.go
 
                   # Package the binary
-                  cd build/$OUTPUT_NAME
+                  cd "build/$OUTPUT_NAME"
                   if [ "$GOOS" == "windows" ]; then
-                      zip -r ../${OUTPUT_NAME}.zip $BINARY_NAME
+                    zip -r "../${OUTPUT_NAME}.${ARCHIVE_EXT}" "$BINARY_NAME"
                   else
-                      tar -czf ../${OUTPUT_NAME}.tar.gz $BINARY_NAME
+                    tar -czf "../${OUTPUT_NAME}.${ARCHIVE_EXT}" "$BINARY_NAME"
                   fi
                   cd ../..
-                  rm -rf build/$OUTPUT_NAME
+                  rm -rf "build/$OUTPUT_NAME"
 
-            - name: Upload artifact
-              uses: actions/upload-artifact@v3
+                  # Set outputs
+                  echo "archive_name=${OUTPUT_NAME}.${ARCHIVE_EXT}" >> $GITHUB_OUTPUT
+                  echo "archive_path=build/${OUTPUT_NAME}.${ARCHIVE_EXT}" >> $GITHUB_OUTPUT
+
+            - name: Create GitHub Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  name: ${{ matrix.goos }}-${{ matrix.goarch }}
-                  path: |
-                      build/*.tar.gz
-                      build/*.zip
+                  tag_name: ${{ github.ref_name }}
+                  release_name: Release ${{ github.ref_name }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ${{ steps.build.outputs.archive_path }}
+                  asset_name: ${{ steps.build.outputs.archive_name }}
+                  asset_content_type: application/octet-stream
