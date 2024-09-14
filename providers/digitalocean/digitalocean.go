@@ -22,7 +22,7 @@ func (p *DigitalOceanProvider) getClient() *godo.Client {
 	return godo.NewClient(oauthClient)
 }
 
-func (p *DigitalOceanProvider) UpdateOrCreateRecord(record providers.DNSRecord) error {
+func (p *DigitalOceanProvider) CommitRecord(record providers.DNSRecord) error {
 	client := p.getClient()
 	ctx := context.Background()
 

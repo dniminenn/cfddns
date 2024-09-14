@@ -15,6 +15,8 @@ import (
 	"cfddns/providers/cloudflare"
 	"cfddns/providers/digitalocean"
 	"cfddns/providers/duckdns"
+	"cfddns/providers/freedns"
+	"cfddns/providers/noip"
 	"cfddns/providers/route53"
 
 	"github.com/sirupsen/logrus"
@@ -148,6 +150,19 @@ func runOnce(cfg *config.Config) {
 				Token: token,
 			}
 
+		case "noip":
+			settings := providerCfg.Settings
+			username, _ := settings["username"].(string)
+			password, _ := settings["password"].(string)
+
+			provider = &noip.NoIPProvider{
+				Username: username,
+				Password: password,
+			}
+
+		case "freedns":
+			provider = &freedns.FreeDNSProvider{}
+
 		default:
 			logrus.Errorf("Unsupported provider type: %s", providerCfg.Type)
 			continue
@@ -166,14 +181,15 @@ func runOnce(cfg *config.Config) {
 			}
 
 			dnsRecord := providers.DNSRecord{
-				Name:    record.Name,
-				Type:    record.Type,
-				Content: ipAddress,
-				TTL:     record.TTL,
-				Proxied: record.Proxied,
+				Name:        record.Name,
+				Type:        record.Type,
+				Content:     ipAddress,
+				TTL:         record.TTL,
+				Proxied:     record.Proxied,
+				UpdateToken: record.UpdateToken,
 			}
 
-			err := provider.UpdateOrCreateRecord(dnsRecord)
+			err := provider.CommitRecord(dnsRecord)
 			if err != nil {
 				logrus.Errorf("Error updating DNS record for %s: %v", record.Name, err)
 			}

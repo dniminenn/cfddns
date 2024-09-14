@@ -204,7 +204,7 @@ func (p *CloudflareProvider) CreateDNSRecord(record DnsRecord) error {
 	return nil
 }
 
-func (p *CloudflareProvider) UpdateOrCreateRecord(record providers.DNSRecord) error {
+func (p *CloudflareProvider) CommitRecord(record providers.DNSRecord) error {
 	existingRecord, err := p.fetchDNSRecord(record.Name, record.Type)
 	if err != nil {
 		return err
@@ -227,7 +227,7 @@ func (p *CloudflareProvider) UpdateOrCreateRecord(record providers.DNSRecord) er
 			}
 			logrus.Infof("Updated DNS record: %s -> %s (TTL: %d, Proxied: %v)", dnsRecord.Name, dnsRecord.Content, dnsRecord.TTL, dnsRecord.Proxied)
 		} else {
-			logrus.Debugf("Already up-to-date: %s -> %s (TTL: %d, Proxied: %v)", dnsRecord.Name, dnsRecord.Content, dnsRecord.TTL, dnsRecord.Proxied)
+			logrus.Infof("Already up-to-date: %s -> %s (TTL: %d, Proxied: %v)", dnsRecord.Name, dnsRecord.Content, dnsRecord.TTL, dnsRecord.Proxied)
 		}
 	} else {
 		err := p.CreateDNSRecord(dnsRecord)

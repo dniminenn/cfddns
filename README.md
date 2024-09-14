@@ -43,32 +43,32 @@ You can download the precompiled binary directly to avoid the hassle of compilin
 
 1. **Download the Binary**
 
-   Head over to the [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.2) page and download the binary suitable for your operating system:
+   Head over to the [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.3) page and download the binary suitable for your operating system:
 
    - **For Linux (64-bit)**:
 
      ```bash
-     wget https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_linux_amd64.tar.gz
-     tar -xzf cfddns_v0.2_linux_amd64.tar.gz
+     wget https://github.com/dniminenn/cfddns/releases/download/v0.3/cfddns_v0.3_linux_amd64.tar.gz
+     tar -xzf cfddns_v0.3_linux_amd64.tar.gz
      ```
 
    - **For macOS (64-bit)**:
 
      ```bash
-     curl -LO https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_darwin_amd64.tar.gz
-     tar -xzf cfddns_v0.2_darwin_amd64.tar.gz
+     curl -LO https://github.com/dniminenn/cfddns/releases/download/v0.3/cfddns_v0.3_darwin_amd64.tar.gz
+     tar -xzf cfddns_v0.3_darwin_amd64.tar.gz
      ```
 
    - **For FreeBSD (64-bit)**:
 
      ```bash
-     fetch https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_freebsd_amd64.tar.gz
-     tar -xzf cfddns_v0.2_freebsd_amd64.tar.gz
+     fetch https://github.com/dniminenn/cfddns/releases/download/v0.3/cfddns_v0.3_freebsd_amd64.tar.gz
+     tar -xzf cfddns_v0.3_freebsd_amd64.tar.gz
      ```
 
    - **For Windows (64-bit)**:
 
-     Download the Windows ZIP file from [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.2).
+     Download the Windows ZIP file from [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.3).
 
 2. **Make the Binary Executable**
 
@@ -240,6 +240,50 @@ providers:
 
 - **token**: Your DuckDNS token.
 - **domain**: Your DuckDNS subdomain.
+
+#### No-IP
+
+CFDDNS supports updating DNS records with No-IP, a popular dynamic DNS provider.
+
+```yaml
+
+providers:
+  - type: "noip"
+    settings:
+      username: "your_noip_username"
+      password: "your_noip_password"
+    records:
+      - name: "yourhostname.no-ip.org"
+        type: "A"
+```
+
+- **username**: Your No-IP account username.
+- **password**: Your No-IP account password.
+- **name**: The hostname you have registered with No-IP.
+
+Note: Ensure that you have registered the hostname on the No-IP website before configuring CFDDNS.
+
+#### FreeDNS
+
+CFDDNS also supports FreeDNS, a free dynamic DNS service.
+
+```yaml
+
+providers:
+  - type: "freedns"
+    records:
+      - name: "yourhostname.mooo.com"
+        type: "A"
+        updateToken: "your-freedns-update-token"
+```
+
+- **name**: The full hostname you have registered with FreeDNS.
+- **updateToken**: Your FreeDNS update token for the specific hostname.
+
+Notes:
+
+- You must create the hostname on the FreeDNS website before configuring CFDDNS.
+- Each hostname in FreeDNS has a unique update token found in the "Dynamic DNS" section of your FreeDNS account.
 
 ## Usage
 

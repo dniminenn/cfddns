@@ -1,13 +1,14 @@
 package providers
 
 type DNSRecord struct {
-	Name    string
-	Type    string
-	Content string
-	TTL     int
-	Proxied bool
+	Name        string
+	Type        string
+	Content     string
+	TTL         int
+	Proxied     bool
+	UpdateToken string
 }
 
 type Provider interface {
-	UpdateOrCreateRecord(record DNSRecord) error
+	CommitRecord(record DNSRecord) error
 }

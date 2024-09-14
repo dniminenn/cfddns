@@ -27,10 +27,11 @@ type ProviderConfig struct {
 }
 
 type DNSRecord struct {
-	Name    string `yaml:"name"`
-	Type    string `yaml:"type"`
-	Proxied bool   `yaml:"proxied,omitempty"`
-	TTL     int    `yaml:"ttl"`
+	Name        string `yaml:"name"`
+	Type        string `yaml:"type"`
+	Proxied     bool   `yaml:"proxied,omitempty"`
+	TTL         int    `yaml:"ttl"`
+	UpdateToken string `yaml:"updateToken,omitempty"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -102,6 +103,19 @@ func LoadConfig() (*Config, error) {
 			_, hasToken := settings["token"]
 			if !hasToken {
 				return nil, fmt.Errorf("duckdns provider requires token")
+			}
+		case "noip":
+			settings := provider.Settings
+			_, hasUsername := settings["username"]
+			_, hasPassword := settings["password"]
+			if !hasUsername || !hasPassword {
+				return nil, fmt.Errorf("noip provider requires username and password")
+			}
+		case "freedns":
+			for _, record := range provider.Records {
+				if record.UpdateToken == "" {
+					return nil, fmt.Errorf("freedns provider requires updateToken per record")
+				}
 			}
 		default:
 			return nil, fmt.Errorf("unsupported provider type: %s", provider.Type)

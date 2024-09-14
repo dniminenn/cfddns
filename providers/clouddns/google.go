@@ -23,7 +23,7 @@ func (p *CloudDNSProvider) getService() (*dns.Service, error) {
 	return dns.NewService(ctx, option.WithCredentialsJSON(p.CredentialsJSON))
 }
 
-func (p *CloudDNSProvider) UpdateOrCreateRecord(record providers.DNSRecord) error {
+func (p *CloudDNSProvider) CommitRecord(record providers.DNSRecord) error {
 	service, err := p.getService()
 	if err != nil {
 		return fmt.Errorf("failed to create Cloud DNS service: %v", err)

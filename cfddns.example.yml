@@ -67,3 +67,17 @@ providers:
       records:
           - name: "subdomain" # without duckdns.org
             type: "A"
+
+    - type: "noip"
+      settings:
+          username: "your_noip_username"
+          password: "your_noip_password"
+      records:
+          - name: "yourhostname.no-ip.org"
+            type: "A"
+
+    - type: "freedns"
+      records:
+          - name: "yourhostname.mooo.com"
+            type: "A"
+            updateToken: "your-freedns-update-token"

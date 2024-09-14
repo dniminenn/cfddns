@@ -62,7 +62,7 @@ func (p *Route53Provider) getZoneID() (string, error) {
 	return "", fmt.Errorf("hosted zone for %s not found", p.ZoneName)
 }
 
-func (p *Route53Provider) UpdateOrCreateRecord(record providers.DNSRecord) error {
+func (p *Route53Provider) CommitRecord(record providers.DNSRecord) error {
 	sess, err := p.getSession()
 	if err != nil {
 		return err
