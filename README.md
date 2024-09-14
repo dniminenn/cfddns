@@ -226,13 +226,15 @@ providers:
 
 #### DuckDNS
 
+Note: DuckDNS does not have an official API, so CFDDNS uses the DuckDNS update URL to update records. As a result, DuckDNS does not support the creation of new records. You must create the records manually on the DuckDNS website.
+
 ```yaml
 providers:
   - type: "duckdns"
     settings:
       token: "your_duckdns_token"
-      domain: "your_subdomain.duckdns.org"
     records:
+      - name: "subdomain"
         type: "A"
 ```
 
