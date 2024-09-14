@@ -69,6 +69,27 @@ jobs:
                   echo "archive_name=${OUTPUT_NAME}.${ARCHIVE_EXT}" >> $GITHUB_OUTPUT
                   echo "archive_path=build/${OUTPUT_NAME}.${ARCHIVE_EXT}" >> $GITHUB_OUTPUT
 
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ${{ steps.build.outputs.archive_path }}
+                  asset_name: ${{ steps.build.outputs.archive_name }}
+                  asset_content_type: application/octet-stream
+
+    create_release:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Get the latest commit hash
+              id: get_commit
+              run: echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
             - name: Create GitHub Release
               id: create_release
               uses: actions/create-release@v1
@@ -79,13 +100,3 @@ jobs:
                   release_name: ${{ github.ref_type == 'tag' && github.ref_name || env.commit_hash }}
                   draft: false
                   prerelease: ${{ github.event_name == 'workflow_dispatch' }}
-
-            - name: Upload Release Asset
-              uses: actions/upload-release-asset@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ${{ steps.build.outputs.archive_path }}
-                  asset_name: ${{ steps.build.outputs.archive_name }}
-                  asset_content_type: application/octet-stream
