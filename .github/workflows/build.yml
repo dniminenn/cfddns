@@ -12,7 +12,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                goos: [linux, darwin, windows]
+                goos: [linux, darwin, windows, freebsd]
                 goarch: [amd64]
 
         steps:
@@ -68,7 +68,7 @@ jobs:
               id: create_release
               uses: actions/create-release@v1
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN}}
               with:
                   tag_name: ${{ github.ref_name }}
                   release_name: Release ${{ github.ref_name }}
@@ -78,7 +78,7 @@ jobs:
             - name: Upload Release Asset
               uses: actions/upload-release-asset@v1
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.CFDDNS_DEPLOY_TOKEN }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
                   asset_path: ${{ steps.build.outputs.archive_path }}
