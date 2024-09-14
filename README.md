@@ -25,6 +25,8 @@ Welcome to **CFDDNS**, a lightweight and easy-to-use dynamic DNS updater written
     - [DigitalOcean](#digitalocean)
     - [Google Cloud DNS](#google-cloud-dns)
     - [DuckDNS](#duckdns)
+    - [No-IP](#no-ip)
+    - [FreeDNS](#freedns)
 - [Usage](#usage)
   - [Running Once](#running-once)
   - [Running as a Daemon](#running-as-a-daemon)
