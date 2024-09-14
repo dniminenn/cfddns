@@ -43,32 +43,32 @@ You can download the precompiled binary directly to avoid the hassle of compilin
 
 1. **Download the Binary**
 
-   Head over to the [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.1) page and download the binary suitable for your operating system:
+   Head over to the [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.2) page and download the binary suitable for your operating system:
 
    - **For Linux (64-bit)**:
 
      ```bash
-     wget https://github.com/dniminenn/cfddns/releases/download/v0.1/cfddns_v0.1_linux_amd64.tar.gz
-     tar -xzf cfddns_v0.1_linux_amd64.tar.gz
+     wget https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_linux_amd64.tar.gz
+     tar -xzf cfddns_v0.2_linux_amd64.tar.gz
      ```
 
    - **For macOS (64-bit)**:
 
      ```bash
-     curl -LO https://github.com/dniminenn/cfddns/releases/download/v0.1/cfddns_v0.1_darwin_amd64.tar.gz
-     tar -xzf cfddns_v0.1_darwin_amd64.tar.gz
+     curl -LO https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_darwin_amd64.tar.gz
+     tar -xzf cfddns_v0.2_darwin_amd64.tar.gz
      ```
 
    - **For FreeBSD (64-bit)**:
 
      ```bash
-     fetch https://github.com/dniminenn/cfddns/releases/download/v0.1/cfddns_v0.1_freebsd_amd64.tar.gz
-     tar -xzf cfddns_v0.1_freebsd_amd64.tar.gz
+     fetch https://github.com/dniminenn/cfddns/releases/download/v0.2/cfddns_v0.2_freebsd_amd64.tar.gz
+     tar -xzf cfddns_v0.2_freebsd_amd64.tar.gz
      ```
 
    - **For Windows (64-bit)**:
 
-     Download the Windows ZIP file from [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.1).
+     Download the Windows ZIP file from [Releases](https://github.com/dniminenn/cfddns/releases/tag/v0.2).
 
 2. **Make the Binary Executable**
 
