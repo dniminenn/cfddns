@@ -33,15 +33,15 @@ jobs:
               env:
                   GOOS: ${{ matrix.goos }}
                   GOARCH: ${{ matrix.goarch }}
+                  VERSION: ${{ github.ref_name }}
               run: |
                   APP_NAME="cfddns"
-                  VERSION=${GITHUB_REF#refs/tags/}
                   OUTPUT_NAME="${APP_NAME}_${VERSION}_${GOOS}_${GOARCH}"
 
                   if [ "$GOOS" == "windows" ]; then
-                    BINARY_NAME="${APP_NAME}.exe"
+                      BINARY_NAME="${APP_NAME}.exe"
                   else
-                    BINARY_NAME="$APP_NAME"
+                      BINARY_NAME="$APP_NAME"
                   fi
 
                   mkdir -p build/$OUTPUT_NAME
@@ -50,9 +50,9 @@ jobs:
                   # Package the binary
                   cd build/$OUTPUT_NAME
                   if [ "$GOOS" == "windows" ]; then
-                    zip ../${OUTPUT_NAME}.zip $BINARY_NAME
+                      zip -r ../${OUTPUT_NAME}.zip $BINARY_NAME
                   else
-                    tar -czf ../${OUTPUT_NAME}.tar.gz $BINARY_NAME
+                      tar -czf ../${OUTPUT_NAME}.tar.gz $BINARY_NAME
                   fi
                   cd ../..
                   rm -rf build/$OUTPUT_NAME
