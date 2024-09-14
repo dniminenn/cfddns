@@ -63,7 +63,7 @@ providers:
 
     - type: "duckdns"
       settings:
-          domain: "subdomain.duckdns.org"
           token: "your-duckdns-token"
       records:
-          type: "A"
+          - name: "subdomain" # without duckdns.org
+            type: "A"

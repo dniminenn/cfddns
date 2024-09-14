@@ -142,12 +142,10 @@ func runOnce(cfg *config.Config) {
 
 		case "duckdns":
 			settings := providerCfg.Settings
-			domain, _ := settings["domain"].(string)
 			token, _ := settings["token"].(string)
 
 			provider = &duckdns.DuckDNSProvider{
-				Domain: domain,
-				Token:  token,
+				Token: token,
 			}
 
 		default:

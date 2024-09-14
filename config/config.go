@@ -100,9 +100,8 @@ func LoadConfig() (*Config, error) {
 		case "duckdns":
 			settings := provider.Settings
 			_, hasToken := settings["token"]
-			_, hasDomain := settings["domain"]
-			if !hasToken || !hasDomain {
-				return nil, fmt.Errorf("duckdns provider requires both token and domain")
+			if !hasToken {
+				return nil, fmt.Errorf("duckdns provider requires token")
 			}
 		default:
 			return nil, fmt.Errorf("unsupported provider type: %s", provider.Type)
