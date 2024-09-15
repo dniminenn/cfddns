@@ -1,3 +1,5 @@
+[![Build and Release](https://github.com/dniminenn/cfddns/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/dniminenn/cfddns/actions/workflows/build.yml)
+
 # CFDDNS - A Simple Dynamic DNS Updater
 
 Welcome to **CFDDNS**, a lightweight and easy-to-use dynamic DNS updater written in Go. If you've got a dynamic IP address and need to keep your DNS records up-to-date across multiple providers, you're in the right place!
