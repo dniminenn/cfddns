@@ -61,10 +61,9 @@ func GetExternalIP() (string, error) {
 
 func GetExternalIPv6() (string, error) {
 	services := []string{
-		"https://api64.ipify.org?format=text",
-		"https://ifconfig.co",
 		"https://v6.ident.me",
-		"https://ipv6.myexternalip.com/raw",
+		"ipv6.icanhazip.com",
+		"https://api6.ipify.org",
 	}
 
 	services = shuffleServices(services)
