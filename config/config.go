@@ -117,6 +117,13 @@ func LoadConfig() (*Config, error) {
 					return nil, fmt.Errorf("freedns provider requires updateToken per record")
 				}
 			}
+		case "dynu":
+			settings := provider.Settings
+			_, hasUsername := settings["username"]
+			_, hasPassword := settings["password"]
+			if !hasUsername || !hasPassword {
+				return nil, fmt.Errorf("dynu provider requires username and password")
+			}
 		default:
 			return nil, fmt.Errorf("unsupported provider type: %s", provider.Type)
 		}

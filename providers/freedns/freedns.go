@@ -41,7 +41,7 @@ func (p *FreeDNSProvider) CommitRecord(record providers.DNSRecord) error {
 	body := string(bodyBytes)
 
 	if strings.Contains(body, "has not changed.") || strings.Contains(body, "Updated") {
-		logrus.Infof("Updated FreeDNS record %s to %s (%s)", record.Name, record.Content, record.Type)
+		logrus.Infof("Updated FreeDNS record %s -> %s (%s)", record.Name, record.Content, record.Type)
 		return nil
 	} else if strings.Contains(body, "ERROR") {
 		return fmt.Errorf("failed to update FreeDNS record, response: %s", body)

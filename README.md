@@ -29,6 +29,7 @@ Welcome to **CFDDNS**, a lightweight and easy-to-use dynamic DNS updater written
     - [DuckDNS](#duckdns)
     - [No-IP](#no-ip)
     - [FreeDNS](#freedns)
+    - [Dynu](#dynu)
 - [Usage](#usage)
   - [Running Once](#running-once)
   - [Running as a Daemon](#running-as-a-daemon)
@@ -288,6 +289,28 @@ Notes:
 
 - You must create the hostname on the FreeDNS website before configuring CFDDNS.
 - Each hostname in FreeDNS has a unique update token found in the "Dynamic DNS" section of your FreeDNS account.
+
+#### Dynu
+
+CFDDNS also supports Dynu, a dynamic DNS service that uses Basic Authentication with an MD5-hashed password.
+
+```yaml
+providers:
+  - type: "dynu"
+    settings:
+      username: "your-dynu-username"
+      password: "your-dynu-ip-update-password"
+    records:
+      - name: "yourdomain.dynu.com"
+        type: "A" # or "AAAA"
+```
+
+- **username**: Your Dynu username, which you use to log in to your Dynu account.
+- **password**: Your Dynu IP Update password (not the account password), which you can find or set in the Dynu control panel under the "API Credentials" section.
+
+Notes:
+
+- Make sure to use the distinct **IP Update password** provided by Dynu for API calls, **not** your Dynu account login password.
 
 ## Usage
 

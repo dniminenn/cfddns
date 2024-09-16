@@ -15,6 +15,7 @@ import (
 	"cfddns/providers/cloudflare"
 	"cfddns/providers/digitalocean"
 	"cfddns/providers/duckdns"
+	"cfddns/providers/dynu"
 	"cfddns/providers/freedns"
 	"cfddns/providers/noip"
 	"cfddns/providers/route53"
@@ -162,6 +163,16 @@ func runOnce(cfg *config.Config) {
 
 		case "freedns":
 			provider = &freedns.FreeDNSProvider{}
+
+		case "dynu":
+			settings := providerCfg.Settings
+			username, _ := settings["username"].(string)
+			password, _ := settings["password"].(string)
+
+			provider = &dynu.DynuProvider{
+				Username: username,
+				Password: password,
+			}
 
 		default:
 			logrus.Errorf("Unsupported provider type: %s", providerCfg.Type)

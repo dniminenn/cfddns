@@ -54,7 +54,7 @@ func (p *NoIPProvider) CommitRecord(record providers.DNSRecord) error {
 	body := string(bodyBytes)
 
 	if strings.HasPrefix(body, "good") || strings.HasPrefix(body, "nochg") {
-		logrus.Infof("Updated No-IP record %s to %s (%s)", record.Name, record.Content, record.Type)
+		logrus.Infof("Updated No-IP record %s -> %s (%s)", record.Name, record.Content, record.Type)
 		return nil
 	} else {
 		return fmt.Errorf("failed to update No-IP record, response: %s", body)

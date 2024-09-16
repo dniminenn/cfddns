@@ -81,3 +81,13 @@ providers:
           - name: "yourhostname.mooo.com"
             type: "A"
             updateToken: "your-freedns-update-token"
+
+    - type: "dynu"
+      settings:
+          username: "your_dynu_username"
+          password: "your_dynu_ip_update password"
+      records:
+          - name: "yourhostname.freeddns.org"
+            type: "A"
+          - name: "yourhostname.freeddns.org"
+            type: "AAAA"

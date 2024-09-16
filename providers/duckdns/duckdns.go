@@ -54,6 +54,6 @@ func (p *DuckDNSProvider) CommitRecord(record providers.DNSRecord) error {
 		return fmt.Errorf("failed to update DNS record, response: %s", string(body))
 	}
 
-	logrus.Infof("Updated DuckDNS record %s to %s (%s)", record.Name, record.Content, record.Type)
+	logrus.Infof("Updated DuckDNS record %s -> %s (%s)", record.Name, record.Content, record.Type)
 	return nil
 }
